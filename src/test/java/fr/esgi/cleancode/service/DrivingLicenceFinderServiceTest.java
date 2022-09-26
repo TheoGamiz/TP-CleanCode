@@ -2,6 +2,7 @@ package fr.esgi.cleancode.service;
 
 import fr.esgi.cleancode.database.InMemoryDatabase;
 import fr.esgi.cleancode.model.DrivingLicence;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,4 +50,5 @@ class DrivingLicenceFinderServiceTest {
         verify(database).findById(id);
         verifyNoMoreInteractions(database);
     }
+
 }
