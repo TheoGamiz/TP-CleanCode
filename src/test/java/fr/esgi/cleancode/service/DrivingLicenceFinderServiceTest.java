@@ -1,8 +1,13 @@
 package fr.esgi.cleancode.service;
 
 import fr.esgi.cleancode.database.InMemoryDatabase;
+import fr.esgi.cleancode.model.DrivingLicence;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,13 +21,20 @@ class DrivingLicenceFinderServiceTest {
     @Mock
     private InMemoryDatabase database;
 
-    @Test
-    void should_find() {
-
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {
+            "lorem ipsuil",
+            "dkjsfqlshjfbqklb",
+            "087986087608760",
+            "98Y9HIBFDSKJF9SEH"
+    })
+    void should_find(String validSSNumber) {
+        val actual = validate(DrivingLicenceFinderService.findDrivingLicenceById(validSSNumber));
+        assertThat(actual).containsValidINstanceOf(DrivingLicence.class);
     }
 
     @Test
     void should_not_find() {
-
     }
 }
