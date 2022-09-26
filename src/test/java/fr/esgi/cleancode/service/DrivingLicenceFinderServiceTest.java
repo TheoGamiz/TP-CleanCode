@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 @ExtendWith(MockitoExtension.class)
 class DrivingLicenceFinderServiceTest {
 
@@ -21,16 +23,9 @@ class DrivingLicenceFinderServiceTest {
     @Mock
     private InMemoryDatabase database;
 
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {
-            "lorem ipsuil",
-            "dkjsfqlshjfbqklb",
-            "087986087608760",
-            "98Y9HIBFDSKJF9SEH"
-    })
-    void should_find(String validSSNumber) {
-        val actual = validate(DrivingLicenceFinderService.findDrivingLicenceById(validSSNumber));
+    @Test
+    void should_find() {
+        val actual = validate(DrivingLicenceFinderService.findDrivingLicenceById(UUID.randomUUID()));
         assertThat(actual).containsValidINstanceOf(DrivingLicence.class);
     }
 
