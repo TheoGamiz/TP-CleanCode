@@ -1,6 +1,6 @@
 package fr.esgi.cleancode.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class vResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
         super(message);
     }
