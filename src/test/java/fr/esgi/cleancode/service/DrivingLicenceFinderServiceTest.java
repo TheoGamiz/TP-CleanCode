@@ -2,17 +2,17 @@ package fr.esgi.cleancode.service;
 
 import fr.esgi.cleancode.database.InMemoryDatabase;
 import fr.esgi.cleancode.model.DrivingLicence;
-import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
 import java.util.UUID;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DrivingLicenceFinderServiceTest {
@@ -25,11 +25,28 @@ class DrivingLicenceFinderServiceTest {
 
     @Test
     void should_find() {
-        val actual = validate(DrivingLicenceFinderService.findDrivingLicenceById(UUID.randomUUID()));
-        assertThat(actual).containsValidINstanceOf(DrivingLicence.class);
+        final var id = UUID.randomUUID();
+        final var drivingLicence = DrivingLicence.builder().id(id).build();
+
+        when(database.findById(id)).thenReturn(Optional.of(drivingLicence));
+
+        final var actual = service.findById(id);
+
+        assertThat(actual).containsSame(drivingLicence);
+        verify(database).findById(id);
+        verifyNoMoreInteractions(database);
     }
 
     @Test
     void should_not_find() {
+        final var id = UUID.randomUUID();
+
+        when(database.findById(id)).thenReturn(Optional.empty());
+
+        final var actual = service.findById(id);
+
+        assertThat(actual).isEmpty();
+        verify(database).findById(id);
+        verifyNoMoreInteractions(database);
     }
 }
