@@ -2,7 +2,6 @@ package fr.esgi.cleancode.service;
 
 import fr.esgi.cleancode.database.InMemoryDatabase;
 import fr.esgi.cleancode.model.DrivingLicence;
-import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ class DrivingLicenceFinderServiceTest {
         final var id = UUID.randomUUID();
         final var drivingLicence = DrivingLicence.builder().id(id).build();
 
-        when(database.findById(id)).thenReturn(Optional.of(drivingLicence));
+        when(database.findById(id)).thenReturn(Optional.ofNullable(drivingLicence));
 
         final var actual = service.findById(id);
 
